@@ -1,0 +1,37 @@
+package rules.constraint_entrypoint
+
+import com.test.drools.pojo.Person;
+import com.test.drools.pojo.HouseholdRegister;
+import java.util.List;
+
+rule "test entry point"
+	when
+        $p:Person() from entry-point "testPoint"
+	then
+	    System.out.println("指定从testPoint做为入口点");
+end
+
+
+
+rule "test null entry point"
+	when
+        $p:Person()
+	then
+	    System.out.println("没有指定入口点的规则");
+end
+
+
+rule "test same entry point "
+	when
+        $p:Person() from entry-point "testPoint"
+	then
+	    System.out.println("使用相同 entry point的规则");
+end
+
+
+rule "test different entry point"
+	when
+        $p:Person() from entry-point "PersonPoint"
+	then
+	    System.out.println("多个不同entry point的规则 ");
+end

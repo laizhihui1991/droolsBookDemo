@@ -1,0 +1,89 @@
+package rules.unit
+
+import com.test.drools.pojo.Person
+import com.test.drools.pojo.Behavior
+
+// ============ 年龄分类规则 ============
+rule "AgeClassification_Boy"
+    salience 10
+    when
+        $p: Person(age >= 0 && age < 18)
+    then
+        $p.setClassName("少年");
+        System.out.println("[AgeClassification] " + $p.getName() + " 是少年");
+end
+
+rule "AgeClassification_Youth"
+    salience 10
+    when
+        $p: Person(age >= 18 && age < 36)
+    then
+        $p.setClassName("青年");
+        System.out.println("[AgeClassification] " + $p.getName() + " 是青年");
+end
+
+rule "AgeClassification_Middle"
+    salience 10
+    when
+        $p: Person(age >= 36 && age < 56)
+    then
+        $p.setClassName("中年");
+        System.out.println("[AgeClassification] " + $p.getName() + " 是中年");
+end
+
+rule "AgeClassification_Elder"
+    salience 10
+    when
+        $p: Person(age >= 56)
+    then
+        $p.setClassName("老年");
+        System.out.println("[AgeClassification] " + $p.getName() + " 是老年");
+end
+
+// ============ BMI 建议 ============
+rule "BmiAdvice"
+    salience 9
+    when
+        $p: Person(weight > 0, height > 0)
+    then
+        double bmi = $p.getWeight() / (($p.getHeight() / 100.0) * ($p.getHeight() / 100.0));
+        String advice;
+        if (bmi < 18.5) {
+            advice = "增重锻炼";
+        } else if (bmi >= 18.5 && bmi < 24) {
+            advice = "保持健康";
+        } else {
+            advice = "减肥运动";
+        }
+        $p.setHobby(advice);
+        System.out.println("[BmiAdvice] " + $p.getName() + " BMI=" + String.format("%.2f", bmi) + "，建议=" + advice);
+end
+
+// ============ 行为分析（使用您的 Behavior 字段）============
+rule "ActiveBehavior"
+    salience 8
+    when
+        $p: Person(behavior != null, behavior.go != null, behavior.run != null)
+    then
+        $p.setHobby("活跃运动型");
+        System.out.println("[ActiveBehavior] " + $p.getName() + " 可走可跑");
+end
+
+rule "JumpLover"
+    salience 8
+    when
+        $p: Person(behavior != null, behavior.jump != null, behavior.go == null)
+    then
+        $p.setHobby("跳跃爱好者");
+        System.out.println("[JumpLover] " + $p.getName() + " 喜欢跳跃");
+end
+
+// ============ 默认爱好（优先级最低）============
+rule "DefaultHobby"
+    salience 0
+    when
+        $p: Person(hobby == null || hobby.isEmpty())
+    then
+        $p.setHobby("阅读");
+        System.out.println("[DefaultHobby] " + $p.getName() + " 设置默认爱好");
+end

@@ -1,0 +1,39 @@
+package rules.filewhole_global
+
+import com.test.drools.pojo.Person;
+
+global java.lang.Integer globalAge;
+global java.util.List names;
+
+rule "rule Person age equals globalAge update globalAge"
+    salience 10
+    when
+        $p:Person(age == globalAge)
+    then
+        System.out.println("符合查询条件的 Person 名字：" + $p.getName() + "  年龄：" + $p.getAge());
+        //重新赋值 globalAge 在另一个规则中看是否生效
+        globalAge = 40;
+        System.out.println("当前规则把globalAge 改成： " + globalAge);
+end
+
+rule "rule Person age equals globalAge "
+    when
+        $p:Person(age == globalAge)
+    then
+        System.out.println("符合查询条件的 Person 名字：" + $p.getName() + "  年龄：" + $p.getAge());
+end
+
+rule "global type list names"
+    salience 11
+    when
+    then
+        names.add("测试集合的global修改——1");
+        names.add("测试集合的global修改——2");
+        names.add("测试集合的global修改——3");
+end
+
+rule "println global names"
+    when
+    then
+        System.out.println("输出 global names size: " + names.size());
+end

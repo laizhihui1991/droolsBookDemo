@@ -1,0 +1,136 @@
+package rules.constraint_field
+
+import com.test.drools.pojo.Person;
+import com.test.drools.pojo.HouseholdRegister;
+import java.util.List;
+
+rule "person name contains HouseholdRegister name"
+	when
+        $p:Person($name:name)
+        $hr:HouseholdRegister( name contains $name )
+	then
+       System.out.println("贷款人的姓名包含户口本的姓名");
+end
+
+rule "person name not contains HouseholdRegister name"
+	when
+        $p:Person($name:name)
+        $hr:HouseholdRegister( name not contains $name )
+	then
+       System.out.println("贷款人的姓名不包含户口本的姓名");
+end
+
+
+rule " contains HouseholdRegister name"
+	when
+        $p:Person($name:name)
+        $hr:HouseholdRegister( "小编" contains $name )
+	then
+       System.out.println("贷款人的姓名包含户口本的姓名");
+end
+
+rule "person  contains HouseholdRegister 小编"
+	when
+        $p:Person($name:name)
+        $hr:HouseholdRegister( name contains "小编" )
+	then
+       System.out.println("贷款人的姓名包含户口本的姓名");
+end
+
+rule "person name  contains List 第一个元素 "
+	when
+	    $l:List()
+        $p:Person(name contains $l[0])
+	then
+       System.out.println("贷款人的姓名包含在List的第一个元素中");
+end
+
+rule "person name memberOf List 元素中"
+	when
+	    $l:List()
+        $p:Person(name memberOf $l)
+	then
+       System.out.println("贷款人的姓名包含在List的元素中");
+end
+
+rule "person name not memberOf List 元素中"
+	when
+	    $l:List()
+        $p:Person(name not memberOf $l)
+	then
+       System.out.println("贷款人的姓名不包含在List的元素中");
+end
+
+rule "person name  memberOf 常量"
+   	when
+        $p:Person(name  memberOf "小编")
+   	then
+        System.out.println("贷款人的姓名包含常量值 小编");
+end
+
+rule "person name  memberOf HouseholdRegister name "
+   	when
+        $p:Person($name:name)
+        $hr:HouseholdRegister( name memberOf $name )
+   	then
+        System.out.println("贷款人的姓名包含字段值 HouseholdRegister的name");
+end
+
+
+rule "person name  matches 小 开头"
+   	when
+        $p:Person(name matches "小.*")
+   	then
+        System.out.println("贷款人的姓名是以小字开头");
+end
+
+rule "person name  not matches 小 开头"
+   	when
+        $p:Person(name not matches "小.*")
+   	then
+        System.out.println("贷款人的姓名不是以小字开头");
+end
+
+rule "person name Jon soundslike  John"
+   	when
+        $p:Person(name soundslike "John")
+   	then
+        System.out.println("贷款人的姓名Jon与 John 发音相同");
+end
+
+
+rule "person name  str 小 开头"
+   	when
+        $p:Person(name str[startsWith] "小")
+   	then
+        System.out.println("贷款人的姓名是以小字开头");
+end
+
+rule "person name  str 编 结尾"
+   	when
+        $p:Person(name str[endsWith] "编")
+   	then
+        System.out.println("贷款人的姓名是以编字结尾");
+end
+
+rule "person name  str length 2"
+   	when
+        $p:Person(name str[length] 2)
+   	then
+        System.out.println("贷款人的姓名的长度是 2");
+end
+
+
+rule "person name in 的使用"
+   	when
+        $p:Person(name in ("小柱","小李","小张","小编"))
+   	then
+        System.out.println("贷款人的姓名在指定格式中存在");
+end
+
+rule "person name not in 的使用"
+   	when
+        $p:Person(name not in ("小柱","小李","小张","小编"))
+   	then
+        System.out.println("贷款人的姓名在指定格式中不存在");
+end

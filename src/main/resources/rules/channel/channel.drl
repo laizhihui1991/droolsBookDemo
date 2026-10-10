@@ -1,0 +1,10 @@
+package rules.channel
+
+import com.test.drools.pojo.Order;
+
+rule "order notify"
+when
+    $o : Order( amount > 1000 )
+then
+    channels["orderChannel"].send($o);
+end

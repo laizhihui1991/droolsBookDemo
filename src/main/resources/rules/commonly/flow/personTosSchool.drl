@@ -1,0 +1,39 @@
+package rules.commonly.flow
+
+import com.test.drools.pojo.Students;
+
+//上清华大学
+rule "Tsinghua More than 650"
+ruleflow-group "College"
+    when
+        $s:Students(score>650);
+    then
+        System.out.println("学生"+$s.getName()+" 的分数是"+$s.getScore()+" 可以上清华大学");
+        modify($s){
+            setSchoolList("Tsinghua")
+        }
+end
+
+//上北京大学
+rule "Peking More than 620"
+ruleflow-group "College"
+    when
+        $s:Students(score>620);
+    then
+        System.out.println("学生"+$s.getName()+" 的分数是"+$s.getScore()+" 可以上北京大学");
+        modify($s){
+            setSchoolList("Peking")
+        }
+end
+
+//上大学
+rule "Xiamen More than 550"
+ruleflow-group "College"
+    when
+        $s:Students(score>550);
+    then
+        System.out.println("学生"+$s.getName()+" 的分数是"+$s.getScore()+" 可以上厦门大学");
+        modify($s){
+            setSchoolList("Xiamen")
+        }
+end

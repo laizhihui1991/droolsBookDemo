@@ -1,0 +1,65 @@
+package rules.doif
+
+import java.util.HashMap;
+import java.util.Map;
+
+rule "do test"
+no-loop true
+	when
+        $map:Map(this['status']==9 , this['message']==8)
+        do[testdo]
+	then
+       System.out.println("输出无指定do 的 then ");
+    then[testdo]
+      $map.put("key","do test");
+      System.out.println($map);
+end
+
+rule "do test if"
+no-loop true
+	when
+        $map:Map($status:this['status'] !=null)
+        if((Integer)$status>=3) do[ifdo]
+	then
+       System.out.println("输出无指定do 的 then ");
+    then[ifdo]
+      $map.put("key","do test if");
+      System.out.println($map);
+end
+
+rule "do test else if"
+no-loop true
+	when
+        $map:Map($status:this['status'] !=null , $message: this['message']!=null)
+        if((Integer)$status>=3 && (Integer)$message>=10) do[ifdo]
+        else do[elsedo]
+	then
+       System.out.println("输出无指定do 的 then ");
+    then[ifdo]
+      $map.put("key","if do then");
+      System.out.println($map);
+    then[elsedo]
+      $map.put("key","else do then");
+      System.out.println($map);
+end
+
+
+rule "do test break"
+no-loop true
+	when
+        $map:Map($status:this['status'] !=null , $message: this['message']!=null)
+        if((Integer)$status>=10) do[ifdo]
+        else if ((Integer)$message>=10) do[elsedo]
+//        else break[breakthen]
+	then
+       System.out.println("输出无指定do 的 then ");
+    then[ifdo]
+      $map.put("ifdo","if do then");
+      System.out.println($map);
+    then[elsedo]
+      $map.put("elsedo","else do then");
+      System.out.println($map);
+    then[breakthen]
+      $map.put("breakthen","breakthen");
+      System.out.println($map);
+end

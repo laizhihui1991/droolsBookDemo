@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PMML version="4.2"
+      xmlns="http://www.dmg.org/PMML-4_2"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.dmg.org/PMML-4_2 http://www.dmg.org/v4-2-1/pmml-4-2.xsd">
+
+    <Header>
+        <Application name="Drools-PMML-Example" version="7.40.0"/>
+        <Timestamp>2025-01-21T12:00:00</Timestamp>
+    </Header>
+
+    <DataDictionary numberOfFields="3">
+        <DataField name="age" optype="continuous" dataType="double"/>
+        <DataField name="consumptionLevel" optype="categorical" dataType="string">
+            <Value value="LOW"/>
+            <Value value="MEDIUM"/>
+            <Value value="HIGH"/>
+        </DataField>
+        <DataField name="creditScore" optype="continuous" dataType="double"/>
+    </DataDictionary>
+
+    <Scorecard modelName="CreditScorecard"
+               functionName="regression"
+               isScorable="true"
+               baselineScore="0"
+               initialScore="0"
+               useReasonCodes="true"
+               reasonCodeAlgorithm="pointsAbove">
+
+        <MiningSchema>
+            <MiningField name="age" usageType="active" invalidValueTreatment="asMissing"/>
+            <MiningField name="consumptionLevel" usageType="active" invalidValueTreatment="asMissing"/>
+            <MiningField name="creditScore" usageType="target"/>
+        </MiningSchema>
+
+        <Output>
+            <OutputField name="predictedCreditScore" displayName="信用评分"
+                         dataType="double" feature="predictedValue"
+                         targetField="creditScore"/>
+        </Output>
+
+        <Characteristics>
+            <Characteristic name="AgeScore" baselineScore="0" reasonCode="AGE">
+                <Attribute partialScore="40">
+                    <SimplePredicate field="age" operator="lessThan" value="25"/>
+                </Attribute>
+                <Attribute partialScore="70">
+                    <CompoundPredicate booleanOperator="and">
+                        <SimplePredicate field="age" operator="greaterOrEqual" value="25"/>
+                        <SimplePredicate field="age" operator="lessThan" value="35"/>
+                    </CompoundPredicate>
+                </Attribute>
+                <Attribute partialScore="80">
+                    <CompoundPredicate booleanOperator="and">
+                        <SimplePredicate field="age" operator="greaterOrEqual" value="35"/>
+                        <SimplePredicate field="age" operator="lessThan" value="50"/>
+                    </CompoundPredicate>
+                </Attribute>
+                <Attribute partialScore="50">
+                    <SimplePredicate field="age" operator="greaterOrEqual" value="50"/>
+                </Attribute>
+            </Characteristic>
+
+            <Characteristic name="ConsumptionScore" baselineScore="0" reasonCode="CONS">
+                <Attribute partialScore="20">
+                    <SimplePredicate field="consumptionLevel" operator="equal" value="LOW"/>
+                </Attribute>
+                <Attribute partialScore="60">
+                    <SimplePredicate field="consumptionLevel" operator="equal" value="MEDIUM"/>
+                </Attribute>
+                <Attribute partialScore="90">
+                    <SimplePredicate field="consumptionLevel" operator="equal" value="HIGH"/>
+                </Attribute>
+            </Characteristic>
+        </Characteristics>
+    </Scorecard>
+</PMML>

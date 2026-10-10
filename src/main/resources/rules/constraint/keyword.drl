@@ -1,0 +1,29 @@
+package rules.constraint_keyword
+
+import com.test.drools.pojo.Keyword;
+
+rule "DRL keyword when then"
+	when
+        $k:Keyword(`when`=="关键字when",`then`=="关键字then")
+	then
+       System.out.println("测试DRL中使用软关键字");
+end
+
+rule "DRL keyword rule end"
+	when
+        $k:Keyword(`rule`=="关键字rule",`end`=="关键字end")
+	then
+       System.out.println("测试DRL中使用软关键字");
+end
+
+rule "DRL keyword in global eval not action init"
+	when
+        $k:Keyword(`global`=="关键字global",
+                   `eval`=="关键字eval",
+                   `not`=="关键字not",
+                   `action`=="关键字action",
+                   `init`=="关键字init"
+                  )
+	then
+       System.out.println("测试DRL中使用软关键字");
+end

@@ -1,0 +1,5 @@
+package rules.filewhole
+
+function void noParameterFunction(){
+    System.out.println("相同package 的无参function ");
+}

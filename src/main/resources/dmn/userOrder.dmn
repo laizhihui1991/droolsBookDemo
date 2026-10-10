@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions
+        xmlns="https://www.omg.org/spec/DMN/20180521/MODEL/"
+        xmlns:dmndi="https://www.omg.org/spec/DMN/20180521/DMNDI/"
+        xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/"
+        xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/"
+        xmlns:feel="https://www.omg.org/spec/DMN/20180521/FEEL/"
+        id="definitions"
+        name="UserOrderDMN"
+        namespace="https://rule.tojoy.com/dmn/order">
+
+    <!-- 输入数据：必须包含 variable 声明，name 与 Java 代码中 context.set 的 key 一致 -->
+    <inputData id="inputUser" name="user">
+        <variable name="user" typeRef="Any"/>
+    </inputData>
+    <inputData id="inputOrder" name="order">
+        <variable name="order" typeRef="Any"/>
+    </inputData>
+    <!-- 决策节点：同样需要 variable 声明输出结果的名称 -->
+    <decision id="decisionMessage" name="message">
+        <variable name="message" typeRef="string"/>
+        <informationRequirement>
+            <requiredInput href="#inputUser"/>
+        </informationRequirement>
+        <informationRequirement>
+            <requiredInput href="#inputOrder"/>
+        </informationRequirement>
+
+        <literalExpression>
+            <text>
+                if user.id = 10000 and order.userId = 10000 and order.amount > 200
+                then user.name + "今天花费了金额高达" + string(order.amount) + "元了"
+                else "未达到消费条件"
+            </text>
+        </literalExpression>
+    </decision>
+</definitions>

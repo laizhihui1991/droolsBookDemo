@@ -1,0 +1,64 @@
+package rules.constraint_error
+import com.test.drools.pojo.Person;
+import com.test.drools.pojo.Keyword;
+
+//rule "101: no viable alternative"
+//	when
+//        exists Person()
+//        exits Keyword()
+//	then
+//       System.out.println("测试错误提示信息："+drools.getRule().getName());
+//end
+//
+//rule
+//	when
+//        Person()
+//	then
+//       System.out.println("测试错误提示信息："+drools.getRule().getName());
+//end
+//
+//rule "missingQuotes"
+//	when
+//        Person(name=="来家二少)
+//	then
+//       System.out.println("测试错误提示信息："+drools.getRule().getName());
+//end
+
+//rule "102: mismatched input"
+//	when
+//        $p:Person(
+//        // Must be a complete rule statement
+//	then
+//       System.out.println("测试错误提示信息："+drools.getRule().getName());
+//end
+
+//Some text
+//rule "103: failed predicate"
+//	when
+//        $p:Person()
+//	then
+//       System.out.println("测试错误提示信息："+drools.getRule().getName());
+//end
+
+//rule "104: trailing semi-colon not allowed"
+//	when
+//        eval(test104();)
+//	then
+//       System.out.println("测试错误提示信息："+drools.getRule().getName());
+//end
+//
+//function boolean test104(){
+//    return  true;
+//}
+
+
+rule "105: did not match anything"
+	when
+       None  // Must remove `None` if condition is empty
+	then
+	   insert( new Person() );
+       System.out.println("测试错误提示信息："+drools.getRule().getName());
+end
+
+
+

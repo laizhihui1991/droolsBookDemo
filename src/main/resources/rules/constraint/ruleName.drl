@@ -1,0 +1,30 @@
+package rules.constraint_ruleName
+
+rule "starts rule name test "
+	when
+
+	then
+	   System.out.println("输出以starts开头的规则");
+end
+
+
+rule "rule name test end"
+	when
+
+	then
+	   System.out.println("输出以end结尾的规则");
+end
+
+rule "rule name test"
+	when
+
+	then
+	   System.out.println("输出名为rule name test定义的规则名的规则");
+end
+
+rule "100000"
+	when
+
+	then
+	   System.out.println("输出通过正则匹配的的规则");
+end

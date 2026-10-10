@@ -1,0 +1,108 @@
+package rules.constraint_extension
+
+import com.test.drools.pojo.Person;
+import com.test.drools.pojo.HouseholdRegister;
+import java.util.List;
+
+
+rule "person age gt 20"
+	when
+        $p:Person(age>20)
+	then
+	    System.out.println("父类规则的Fact是 Person");
+end
+
+rule "person name equals HouseholdRegister name " extends "person age gt 20"
+	when
+        $hr:HouseholdRegister( name == $p.name )
+	then
+       System.out.println("贷款人的姓名与户口本的姓名一致");
+end
+
+rule "test thens"
+	when
+        $p:Person(age>20)
+        do[testdo]
+	then
+       System.out.println("贷款人的年龄大于20岁");
+    then[testdo]
+       System.out.println("贷款人的姓名："+$p.getName()+" 年龄："+$p.getAge());
+end
+
+rule "do test thens"
+no-loop true
+	when
+        $p:Person(age>20)
+        do[testdo]
+        $hr:HouseholdRegister( name != $p.name )
+        do[nameDo]
+        do[testdo]
+	then
+       System.out.println("贷款人的年龄大于20岁");
+    then[testdo]
+       System.out.println("贷款人的姓名："+$p.getName()+" 年龄："+$p.getAge());
+       modify($p){
+            setName("小柱")
+       }
+    then[nameDo]
+       System.out.println("贷款人的姓名与户口本不相等");
+end
+
+//
+//rule "do test thens2"
+//no-loop true
+//	when
+//        do[testdo]
+//	then
+//       System.out.println("贷款人的年龄大于20岁");
+//    then[testdo]
+//    then[nameDo]
+//       System.out.println("贷款人的姓名与户口本不相等");
+//end
+
+
+rule "test list"
+	when
+	    $p:Person(payChecks[0]=="工商银行")
+	then
+       System.out.println("贷款人的第一张工资卡是工商银行");
+end
+
+rule "test list get"
+	when
+	    $p:Person(payChecks.get(0)=="工商银行")
+	then
+       System.out.println("贷款人的第一张工资卡是工商银行");
+end
+
+
+rule "test Map"
+	when
+	    $p:Person(addressMap[name]=="北京")
+	then
+       System.out.println("贷款人： "+$p.getName()+" 在北京生活");
+end
+
+rule "test Map get"
+	when
+	    $p:Person(addressMap.get(name) == "北京" )
+	then
+      System.out.println("贷款人： "+$p.getName()+" 在北京生活");
+end
+
+
+rule "test Set"
+	when
+	    $p:Person()
+	then
+       System.out.println("贷款人： "+$p.getName()+" 曾经在"+$p.getClassNames().iterator().next()+"学习过");
+end
+
+
+rule "test list insert"
+	when
+	    $l:List()
+	    eval($l[0]=="工商银行")
+	then
+       System.out.println("判断List的第一个元素等于工商银行");
+end

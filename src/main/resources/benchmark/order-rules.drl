@@ -1,0 +1,56 @@
+package benchmark
+
+import com.drools.benchmark.model.Order;
+
+// R1：三级客户且金额不少于 1000；金额低于 5000 时由本规则写入 VIP 结果。
+rule "R1-VIP"
+when
+    $order : Order(result == null, customerLevel == 3, amount >= 1000, amount < 5000)
+then
+    // modify 会通知 Drools 该事实已更新；result 非空后本规则不再重复匹配。
+    modify($order) {
+        setResult("VIP-优先处理")
+    }
+end
+
+// R2：二级客户且金额不少于 500；金额低于 5000 时写入标准快速通道结果。
+rule "R2-Standard"
+when
+    $order : Order(result == null, customerLevel == 2, amount >= 500, amount < 5000)
+then
+    // modify 触发工作内存更新传播，供后续依赖 result 的规则感知变更。
+    modify($order) {
+        setResult("标准-快速通道")
+    }
+end
+
+// R3：一级客户且金额不少于 200；金额低于 5000 时写入普通正常处理结果。
+rule "R3-Normal"
+when
+    $order : Order(result == null, customerLevel == 1, amount >= 200, amount < 5000)
+then
+    // modify 保持结果写入和 Drools Fact 更新为一个原子规则后果。
+    modify($order) {
+        setResult("普通-正常处理")
+    }
+end
+
+// R4：金额不少于 5000；文件最后声明，并用金额范围覆盖 R1-R3 的结果。
+rule "R4-Large"
+when
+    $order : Order(result == null, amount >= 5000)
+then
+    // modify 写入大额审核结果并传播更新；R1-R3 已排除该金额范围。
+    modify($order) {
+        setResult("大额-人工审核")
+    }
+end
+// S5 专用历史订单组合规则：只匹配订单标识以 S5- 开头的 Fact，避免影响 S1-S4。
+// 不 dispose 时，历史 S5 Order 会保留在 Working Memory，中后续订单会与它们形成新的有序组合。
+rule "S5-历史订单组合匹配"
+when
+    $left : Order(orderId matches "S5-.*", customerLevel == 3, amount >= 1000)
+    $right : Order(this != $left, orderId matches "S5-.*", customerLevel == 3, amount >= 1000)
+then
+    // 本规则不 modify Fact；仅通过 fireAllRules 返回值和监听器数量观察 Join 组合增长。
+end

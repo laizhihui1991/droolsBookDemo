@@ -1,0 +1,44 @@
+package rules.ruleHello
+
+import com.test.drools.pojo.Person
+//这是单行注释
+rule "Identity equality Fact test"
+    when
+        $p:Person()
+    then
+        System.out.println("Identity and equality Fact Person");
+end
+
+/*
+ * 这是多行注释
+ */
+rule "test Person no.1"
+    when
+        $p:Person()
+    then
+        System.out.println("Hello Person class");
+end
+
+
+rule "testHello"
+    when
+        eval(true)
+    then
+        System.out.println("Hello World Drools");
+end
+
+//rule "testHello"
+//    when
+//        eval(true)
+//    then
+//        System.out.println("Hello World Drools");
+//end
+
+
+
+rule "testRuleNameOnly"
+    when
+        eval(true)
+    then
+        System.out.println("Hello World Drools");
+end

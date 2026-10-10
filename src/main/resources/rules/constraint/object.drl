@@ -1,0 +1,179 @@
+package rules.constraint_object
+
+import com.test.drools.pojo.Person;
+import com.test.drools.pojo.HouseholdRegister;
+import com.test.drools.pojo.Behavior;
+import java.util.ArrayList;
+import java.lang.Integer;
+
+rule "Infix and person name equals HouseholdRegister name"
+	when
+        $p:Person($name:name) and
+        $hr:HouseholdRegister( name == $name )
+	then
+       System.out.println("贷款人的姓名与户口本的姓名一致");
+end
+
+rule "Prefix and person name equals HouseholdRegister name "
+	when
+       (  and $p:Person($name:name)
+        $hr:HouseholdRegister( name == $name )
+       )
+	then
+       System.out.println("贷款人的姓名与户口本的姓名一致");
+end
+
+
+rule "Infix or person HouseholdRegister "
+	when
+        $p:Person() or
+        $hr:HouseholdRegister()
+	then
+       System.out.println("贷款人存在或户口本存在");
+end
+
+rule "Prefix or person  HouseholdRegister "
+	when
+       (or $p:Person()
+        $hr:HouseholdRegister()
+       )
+	then
+       System.out.println("贷款人存在或户口本存在");
+end
+
+rule "exists person name equals 小编"
+	when
+       exists $p:Person(name=="小编")
+	then
+       System.out.println("贷款人姓名必须等于小编");
+end
+
+rule "not person name not equals 小柱"
+	when
+       not $p:Person(name=="小柱")
+	then
+       System.out.println("贷款人姓名中不存在小柱");
+end
+
+rule "forall person Behavior equals Behavior"
+	when
+       forall (
+           $p:Person($name:name)
+           $b:Behavior(this==$p.behavior)
+       )
+	then
+       System.out.println("判断person中的behavior是否与Behavior是同一个对象");
+end
+
+//rule "forall person Behavior equals Behavior and HouseholdRegister equals person name"
+//	when
+//       forall (
+//           $p:Person($name:name)
+//           $b:Behavior(this==$p.behavior)
+//       )
+//      $hr:HouseholdRegister( name == $name )
+//	then
+//       System.out.println("这是一个错误的规则");
+//end
+
+rule "from person Behavior equals Behavior 1"
+	when
+       $p:Person($pb:behavior)
+       $b:Behavior(run=="我要跑") from $pb
+	then
+       System.out.println("判断person中的behavior中的run等于我要跑");
+end
+
+rule "from person Behavior equals Behavior 2"
+	when
+       $p:Person()
+       $b:Behavior(run=="我要跑") from $p.behavior
+	then
+       System.out.println("判断person中的behavior中的run等于我要跑");
+end
+
+
+rule "collect person list"
+	when
+        $al:ArrayList() from collect ($p:Person(name!="小编"))
+	then
+       System.out.println("检查贷款人不等于小编的集合人数："+$al.size());
+end
+
+
+rule "accumulate person max min age"
+	when
+       accumulate(Person($age:age),$min:min($age),$max:max($age))
+    then
+       System.out.println("最大的年龄是："+$max+"最小的年龄是： "+$min);
+end
+
+
+
+
+rule "accumulate person max min average age "
+	when
+      accumulate(
+               Person($age:age);
+               $min:min($age),
+               $max:max($age),
+               $avg:average($age)
+      )
+    then
+    System.out.println("最小年龄 "+$min+" 最大年龄 "+$max);
+end
+
+
+rule "accumulate person "
+	when
+      accumulate(
+               Person($age:age);
+               $min:min($age),
+               $max:max($age),
+               $avg:average($age)
+      )
+    then
+    System.out.println("最小年龄 "+$min+" 最大年龄 "+$max);
+end
+
+rule "accumulate action person age sum "
+	when
+      $sumAge:Integer() from accumulate(
+                          Person($age:age),
+                          init(Integer total=0;),
+                          action(total+=$age;),
+                          result(total)
+                          )
+    then
+    System.out.println("贷款人年龄之合是 "+$sumAge);
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

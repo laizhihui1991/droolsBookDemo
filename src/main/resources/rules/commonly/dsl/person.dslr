@@ -1,0 +1,48 @@
+package rules.commonly_dsl
+import com.test.drools.pojo.Person;
+
+rule "直接输出我的属性"
+    when
+        我的属性
+    then
+        打印出我的属性
+end
+
+
+rule "输出指定名字属性的内容"
+    when
+        只输出来家二少的属性
+    then
+        打印出我的属性
+end
+
+
+rule "输出指定名称且年龄的内容"
+    when
+        我的属性
+            - 年龄 小于或等于 30
+            - 名字 是 "来家二少"
+    then
+        打印出我的属性
+end
+
+
+//rule "错误的代码示例一"
+//    when
+//        我的属性是
+//            - 年龄 小于或等于 30
+//            - 名字 是 "来家二少"
+//    then
+//        打印出我的属性
+//end
+
+
+rule "正则的使用"
+    when
+        我的属性
+            - 名字 equals "来家二少"
+            - 年龄 小于或等于 30
+    then
+        打印出我的属性
+        打印出 来家二少
+end

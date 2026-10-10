@@ -1,0 +1,10 @@
+package rules.calendar
+import com.test.drools.pojo.Order;
+
+rule "order check"
+    calendars "workingTime"
+when
+    $o : Order( amount > 1000 )
+then
+    System.out.println("规则被执行：Order amount=" + $o.getAmount());
+end

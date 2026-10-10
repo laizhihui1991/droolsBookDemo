@@ -1,0 +1,7 @@
+package rules.filewhole_1
+
+rule "test rules filewhole"
+    when
+    then
+        System.out.println("kmodule.xml 配置文件中的 kieBaseWhole 属性 packages=\"rules.filewhole\"");
+end

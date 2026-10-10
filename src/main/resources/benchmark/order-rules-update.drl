@@ -1,0 +1,14 @@
+package benchmark
+
+import com.drools.benchmark.model.Order;
+
+// 更新后的唯一规则：三级客户、金额在 3000 到 5000 之间时才处理。
+rule "R-Update-Level3-Amount3000"
+when
+    $order : Order(result == null, customerLevel == 3, amount >= 3000, amount < 5000)
+then
+    // 使用 modify 更新 Fact，便于 Drools 传播订单结果变更。
+    modify($order) {
+        setResult("更新规则-三级大额处理")
+    }
+end

@@ -1,0 +1,45 @@
+package rules.constraint_calculate
+
+import com.test.drools.pojo.Person;
+
+rule "person age add 1"
+	when
+        $p:Person(age+1==31)
+	then
+       System.out.println("贷款人年龄加 1");
+end
+
+rule "person age subtract 1"
+	when
+        $p:Person(age-1==29)
+	then
+       System.out.println("贷款人年龄减 1");
+end
+
+rule "person age subtract 2"
+	when
+        $p:Person(age*2==60)
+	then
+       System.out.println("贷款人年龄乘以 2");
+end
+
+rule "person age divide 2"
+	when
+        $p:Person(age / 2 ==15)
+	then
+       System.out.println("贷款人年龄除以 2");
+end
+
+rule "person age more 2"
+	when
+        $p:Person((age % 2) ==0)
+	then
+       System.out.println("贷款人年龄取余 2");
+end
+
+rule "person age right Moves 2"
+	when
+        $p:Person((age >> 2) ==7)
+	then
+       System.out.println("贷款人年龄右移 2");
+end

@@ -1,0 +1,22 @@
+package rules.fact
+
+import com.test.drools.pojo.Person
+
+rule "update age 31 name is 来家二少"
+    when
+        $p:Person(name=="来家二少")
+    then
+        System.out.println("来家二少准备修改年纪了，此时的年龄="+$p.getAge());
+        modify($p){
+            setAge(31)
+        }
+        System.out.println("今年是2023年，来家二少应该是31岁"+"hashCode="+$p.hashCode());
+end
+
+rule "delete Person name is 来家二少"
+    when
+        $p:Person(name=="来家二少")
+    then
+        delete($p);
+        System.out.println("来家二少的Fact 被删除了");
+end

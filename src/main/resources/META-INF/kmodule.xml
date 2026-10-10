@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<kmodule xmlns="http://www.drools.org/xsd/kmodule">
+    <kbase name="helloKieBase" packages="rules.ruleHello"  equalsBehavior="identity">
+        <ksession name="testhelloworld"/>
+    </kbase>
+
+    <kbase name="kieBaseWhole" packages="rules.filewhole">
+        <ksession name="kieSessionWhole"/>
+    </kbase>
+
+    <kbase name="kieBaseQuery" packages="rules.filewhole_query">
+        <ksession name="kieSessionQuery"/>
+    </kbase>
+
+    <kbase name="kieBaseDeclare" packages="rules.filewhole_declare">
+        <ksession name="kieSessionDeclare"/>
+    </kbase>
+
+    <kbase name="kieBaseGlobal" packages="rules.filewhole_global">
+        <ksession name="kieSessionGlobal"/>
+    </kbase>
+
+
+    <kbase name="kieBaseMatches" packages="rules.constraint_matches">
+        <ksession name="kieSessionMatches"/>
+    </kbase>
+
+    <kbase name="kieBaseConstraintOperator" packages="rules.constraint_operator">
+        <ksession name="kieSessionConstraintOperator"/>
+    </kbase>
+
+    <kbase name="kieBaseConstraintField" packages="rules.constraint_field">
+        <ksession name="kieSessionConstraintField"/>
+    </kbase>
+
+    <kbase name="kieBaseConstraintCalculate" packages="rules.constraint_calculate">
+        <ksession name="kieSessionConstraintCalculate"/>
+    </kbase>
+
+    <kbase name="kieBaseConstraintObject" packages="rules.constraint_object">
+        <ksession name="kieSessionConstraintObject"/>
+    </kbase>
+
+    <kbase name="kieBaseConstraintExtension" packages="rules.constraint_extension">
+        <ksession name="kieSessionConstraintExtension"/>
+    </kbase>
+
+    <kbase name="kieBaseConstraintEntrypoint" packages="rules.constraint_entrypoint">
+        <ksession name="kieSessionConstraintEntrypoint"/>
+    </kbase>
+
+    <kbase name="kieBaseSessionStatus" packages="rules.sessionstatus">
+        <ksession name="kieSessionSessionStatus"/>
+    </kbase>
+
+    <kbase name="kieBaseTestFrom" packages="rules.constraint_object_from">
+        <ksession name="kieSessionTestFrom"/>
+    </kbase>
+    <kbase name="kieBaseKeyWord" packages="rules.constraint_keyword">
+        <ksession name="kieSessionKeyWord"/>
+    </kbase>
+
+    <kbase name="kieBaseError" packages="rules.constraint_error">
+        <ksession name="kieSessionError"/>
+    </kbase>
+
+    <kbase name="kieBaseRuleName" packages="rules.constraint_ruleName">
+        <ksession name="kieSessionRuleName"/>
+    </kbase>
+
+    <kbase name="kieBaseExplanation" packages="rules.constraint_ruleName">
+        <ksession name="kieSessionExplanation"/>
+    </kbase>
+
+    <kbase name="kieBaseDoIf" packages="rules.doif">
+        <ksession name="kieSessionDoIf"/>
+    </kbase>
+
+    <kbase name="kieBaseRuleCalendar" packages="rules.calendar">
+        <ksession name="kieSessionRuleCalendar">
+            <calendars>
+                <calendar name="workingTime" type="com.test.drools.calendar.WorkingTimeCalendar"/>
+            </calendars>
+        </ksession>
+    </kbase>
+
+    <kbase name="kieBaseRuleChannel" packages="rules.channel">
+        <ksession name="kieSessionRuleChannel">
+            <channels>
+                <channel name="orderChannel"
+                         type="com.test.drools.channel.OrderChannel"/>
+            </channels>
+        </ksession>
+    </kbase>
+
+    <kbase name="kieBaseCommonlyTemplates" packages="rules.commonly.templates">
+        <ksession name="kieSessionCommonlyTemplates"/>
+    </kbase>
+
+    <kbase name="kieBaseCommonlyDsl" packages="rules.commonly.dsl">
+        <ksession name="kieSessionCommonlyDsl"/>
+    </kbase>
+
+    <kbase name="kieBaseRuleTemplates" packages="rules.commonly.templates.drts">
+        <ruleTemplate dtable="rules/commonly/templates/drts/templates.xlsx"
+                      template="rules/commonly/templates/drts/ruleTemplates_01.drt"
+                      row="3" col="1"/>
+        <ksession name="kieSessionRuleTemplates"/>
+    </kbase>
+    <!-- 这是一段错误的row -->
+    <!--    <kbase name="kieBaseRuleTemplates" packages="rules.commonly.templates.drts">-->
+    <!--        <ruleTemplate dtable="rules/commonly/templates/drts/templates.xlsx"-->
+    <!--                      template="rules/commonly/templates/drts/ruleTemplates_01.drt"-->
+    <!--                      row="2" col="2"/>-->
+    <!--        <ksession name="kieSessionRuleTemplates"/>-->
+    <!--    </kbase>-->
+
+    <kbase name="kieBaseRuleFlow" packages="rules.commonly.flow">
+        <ksession name="kieSessionRuleFlow"/>
+    </kbase>
+
+    <!--    <kbase name="kieBaseLogger"  packages="rules.logger">-->
+    <!--        <ksession name="kieSessionLogger" >-->
+    <!--&lt;!&ndash;                <consoleLogger name="droolsTest.log" />&ndash;&gt;-->
+    <!--            <fileLogger file="droolsFileLogger" threaded="false" interval="10"/>-->
+    <!--        </ksession>-->
+    <!--    </kbase>-->
+
+    <kbase name="kieBaseRuleFact" packages="rules.fact">
+        <ksession name="kieSessionRuleFact"/>
+        <ksession name="kieSessionStatelessRuleFact" />
+        <!--        <ksession name="kieSessionRuleFact">-->
+        <!--            <listeners>-->
+        <!--                <ruleRuntimeEventListener type="com.test.drools.listener.MyRuleRuntimeEventListener"/>-->
+        <!--            </listeners>-->
+        <!--        </ksession>-->
+    </kbase>
+
+    <kbase name="kieBaseRuleUnit" packages="rules.unit">
+        <ksession name="kieSessionRuleUnit"/>
+    </kbase>
+
+    <!-- Drools 并发 benchmark 专用规则库：仅加载 com.drools.benchmark.rules，避免影响已有示例规则。 -->
+    <kbase name="benchmarkKieBase" packages="com.drools.benchmark.rules">
+        <!-- Stateful Session 供 S1、S2、S3 共享或独立会话场景创建。 -->
+        <ksession name="benchmarkKieSession" type="stateful"/>
+        <!-- Stateless Session 供 S4 并发 execute 场景创建。 -->
+        <ksession name="benchmarkStatelessKieSession" type="stateless"/>
+    </kbase>
+
+</kmodule>
+

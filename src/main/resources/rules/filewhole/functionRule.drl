@@ -1,0 +1,58 @@
+package rules.filewhole
+
+import function com.test.drools.utils.TestRuleImportFunction.ruleImportPrint;
+
+function void parameterFunction(String key){
+    System.out.println("这是一个有参数的 function 参数是：" + key);
+}
+//function void noParameterFunction(){
+//    System.out.println("这是一个无参数的 function");
+//    nestedFunction();
+//}
+function String returnIsString(){
+    return "返回值是String";
+}
+function Boolean returnIsBoolean(){
+    return true;
+}
+function void nestedFunction(){
+    System.out.printf("函数是可以嵌套使用的");
+}
+
+rule "test function rule no.1"
+    when
+    then
+        parameterFunction("Drools");
+        noParameterFunction();
+        System.out.println(returnIsString());
+        System.out.println(returnIsBoolean());
+end
+
+//rule "test function rule no.2"
+//    when
+//        returnIsString(),
+//        returnIsBoolean()
+//    then
+//        parameterFunction("Drools");
+//        noParameterFunction();
+//        System.out.println(returnIsString());
+//        System.out.println(returnIsBoolean());
+//end
+
+rule "test function rule no.2"
+    when
+        eval(returnIsBoolean())
+        eval("返回值是String" == returnIsString())
+    then
+        parameterFunction("Drools");
+        noParameterFunction();
+        System.out.println(returnIsString());
+        System.out.println(returnIsBoolean());
+end
+
+rule "test function rule no.3"
+    when
+    then
+        noParameterFunction();
+        ruleImportPrint();
+end

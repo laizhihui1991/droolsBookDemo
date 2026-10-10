@@ -1,0 +1,28 @@
+package rules.filewhole_query
+
+import com.test.drools.pojo.Person;
+
+query "query Person age equals 30"
+    person:Person(age == 30)
+end
+
+//query "query Person age Less than 25" (String name, int age)
+//    person:Person(name == name, age < age)
+//end
+
+query "query Person age Less than 25" (String $name, int $age)
+    person:Person(name == $name, $age < age)
+end
+
+
+query "testRuleQueryPerson"(String $name, int $age)
+    person:Person(name == $name, $age < age)
+end
+
+rule "rule query"
+    when
+        $p:Person()
+        testRuleQueryPerson($p.name, 25;)
+    then
+        System.out.println("符合查询条件的 Person 名字：" + $p.getName() + "  年龄：" + $p.getAge());
+end

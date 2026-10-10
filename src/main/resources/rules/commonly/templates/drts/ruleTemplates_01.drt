@@ -1,0 +1,19 @@
+template header
+name
+age
+hobby
+
+package rules.commonly.templates.drts
+import com.test.drools.pojo.Person;
+template "rule template name"
+
+rule "name template@{row.rowNumber}"
+no-loop true
+when
+    $p:Person(hobby == "@{hobby}")
+then
+     System.out.print("输入中的 "+$p.getName()+"年龄="+$p.getAge());
+     System.out.print(" 与模板数据中的 "+ "@{name}"+ "年龄="+@{age});
+     System.out.println(" 爱好相同");
+end
+end template

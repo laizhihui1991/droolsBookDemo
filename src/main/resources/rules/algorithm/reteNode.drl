@@ -1,0 +1,25 @@
+package rules.algorithm;
+
+import com.drools.algorithm.rete.fact.OrderResult;
+import com.drools.algorithm.rete.fact.User;
+import com.drools.algorithm.rete.fact.Order;
+
+rule "User info"
+when
+    $user: User($userId: id == 10000, name == "来家二少", age == 30)
+then
+    System.out.println("输出规则匹配的Fact: " + $user);
+end
+
+
+rule "User order"
+when
+    $user: User($userId: id == 10000, name == "来家二少", age == 30)
+    $order: Order(userId == $user.id, amount > 100)
+    $ord: OrderResult()
+then
+    modify($ord){
+        setCode(200),
+        setContent("来家二少 用户的订单金额是大于100元")
+    }
+end

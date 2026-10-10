@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kmodule xmlns="http://www.drools.org/xsd/kmodule">
+    <!-- [修改说明] 原 packages 值为 com.drools.benchmark.rules，因规则文件迁移到 resources/benchmark/ 目录，package 声明同步改为 benchmark。 -->
+    <!-- 测试模块仅加载 benchmark 包，避免将主工程教学规则混入并发测试。 -->
+    <kbase name="benchmarkKieBase" packages="benchmark">
+        <!-- S1、S2、S4、S5 使用的命名有状态会话。 -->
+        <ksession name="orderSession"/>
+        <!-- S3 池化测试保留独立命名会话，便于识别池化借还来源。 -->
+        <ksession name="orderSessionPool"/>
+    </kbase>
+</kmodule>

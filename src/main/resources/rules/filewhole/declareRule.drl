@@ -1,0 +1,29 @@
+package rules.filewhole_declare
+import java.util.Date
+
+declare Personal
+   name:String
+   height:Integer
+   checkInDate:java.util.Date
+end
+
+rule "test declare Personal add height"
+    salience 10
+    when
+    then
+       insert(new Personal("来家二少", 175, new Date()));
+       /*
+       Personal personal = new Personal();
+       personal.setName("来家二少");
+       personal.setHeight(175);
+       personal.setCheckInDate(new Date());
+       insert(personal);
+       */
+end
+
+rule "test declare Personal"
+    when
+        $p:Personal(name == "来家二少", height == 175)
+    then
+        System.out.println($p);
+end
